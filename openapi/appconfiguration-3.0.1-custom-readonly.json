@@ -1,0 +1,3034 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Azure App Configuration",
+    "description": "Azure App Configuration REST API",
+    "version": "2024-09-01",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    },
+    {
+      "OAuth2Auth": ["https://azconfig.io/.default"]
+    }
+  ],
+  "tags": [],
+  "paths": {
+    "/keys": {
+      "get": {
+        "summary": "Gets a list of keys.",
+        "description": "Gets a list of keys.",
+        "operationId": "GetKeys",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A filter for the name of the returned keys.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.keyset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyListResult"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyListResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.keyset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a list of keys.": {
+            "$ref": "./examples/GetKeys.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@nextLink",
+          "itemName": "items"
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckKeys",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A filter for the name of the returned keys.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Check keys": {
+            "$ref": "./examples/CheckKeys.json"
+          }
+        }
+      }
+    },
+    "/kv": {
+      "get": {
+        "summary": "Gets a list of key-values.",
+        "description": "Gets a list of key-values.",
+        "operationId": "GetKeyValues",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "A filter used to match keys. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "A filter used to match labels. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "snapshot",
+            "in": "query",
+            "description": "A filter used get key-values for a snapshot. The value should be the name of\nthe snapshot. Not valid when used with 'key' and 'label' filters.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.kvset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.kvset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a list of key-values using the If-Match header.": {
+            "$ref": "./examples/GetKeyValues_IfMatch.json"
+          },
+          "Gets a list of key-values using the If-None-Match header.": {
+            "$ref": "./examples/GetKeyValues_IfNoneMatch.json"
+          },
+          "Gets a list of key-values.": {
+            "$ref": "./examples/GetKeyValues.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@nextLink",
+          "itemName": "items"
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckKeyValues",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "A filter used to match keys. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "A filter used to match labels. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "snapshot",
+            "in": "query",
+            "description": "A filter used get key-values for a snapshot. The value should be the name of\nthe snapshot. Not valid when used with 'key' and 'label' filters.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource using the If-Match header.": {
+            "$ref": "./examples/CheckKeyValues_IfMatch.json"
+          },
+          "Requests the headers and status of the given resource using the If-None-Match header.": {
+            "$ref": "./examples/CheckKeyValues_IfNoneMatch.json"
+          },
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckKeyValues.json"
+          }
+        }
+      }
+    },
+    "/kv/{key}": {
+      "get": {
+        "summary": "Gets a single key-value.",
+        "description": "Gets a single key-value.",
+        "operationId": "GetKeyValue",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The key of the key-value.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "The label of the key-value to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ms-request-id": {
+                "description": "An opaque, globally-unique, server-generated string identifier for the request.",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.kv+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValue"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValue"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValue"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.kv+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a single key-value using the If-Match header.": {
+            "$ref": "./examples/GetKeyValue_IfMatch.json"
+          },
+          "Gets a single key-value using the If-None-Match header.": {
+            "$ref": "./examples/GetKeyValue_IfNoneMatch.json"
+          },
+          "Gets a single key-value.": {
+            "$ref": "./examples/GetKeyValue.json"
+          }
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckKeyValue",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The key of the key-value to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "The label of the key-value to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/keyvaluefiltering",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource using the If-Match header.": {
+            "$ref": "./examples/CheckKeyValue_IfMatch.json"
+          },
+          "Requests the headers and status of the given resource using the If-None-Match header.": {
+            "$ref": "./examples/CheckKeyValue_IfNoneMatch.json"
+          },
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckKeyValue.json"
+          }
+        }
+      }
+    },
+    "/labels": {
+      "get": {
+        "summary": "Gets a list of labels.",
+        "description": "Gets a list of labels.",
+        "operationId": "GetLabels",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A filter for the name of the returned labels.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["name"],
+                "x-ms-enum": {
+                  "name": "LabelFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "name",
+                      "value": "name",
+                      "description": "Name field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.labelset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabelListResult"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabelListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabelListResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.labelset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a list of labels.": {
+            "$ref": "./examples/GetLabels.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@nextLink",
+          "itemName": "items"
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckLabels",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A filter for the name of the returned labels.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["name"],
+                "x-ms-enum": {
+                  "name": "LabelFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "name",
+                      "value": "name",
+                      "description": "Name field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckLabels.json"
+          }
+        }
+      }
+    },
+    "/operations": {
+      "get": {
+        "summary": "Gets the state of a long running operation.",
+        "description": "Gets the state of a long running operation.",
+        "operationId": "GetOperationDetails",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "snapshot",
+            "in": "query",
+            "description": "Snapshot identifier for the long running operation.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets the state of a long running operation.": {
+            "$ref": "./examples/GetOperationStatus.json"
+          }
+        }
+      }
+    },
+    "/revisions": {
+      "get": {
+        "summary": "Gets a list of key-value revisions.",
+        "description": "Gets a list of key-value revisions.",
+        "operationId": "GetRevisions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "A filter used to match keys. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "A filter used to match labels. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.kvset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyValueListResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.kvset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a list of key-value revisions.": {
+            "$ref": "./examples/GetRevisions.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@nextLink",
+          "itemName": "items"
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckRevisions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "A filter used to match keys. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "description": "A filter used to match labels. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "Accept-Datetime",
+            "in": "header",
+            "description": "Requests the server to respond with the state of the resource at the specified\ntime.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "acceptDatetime"
+            },
+            "x-ms-client-name": "acceptDatetime"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "key",
+                  "label",
+                  "content_type",
+                  "value",
+                  "last_modified",
+                  "tags",
+                  "locked",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "KeyValueFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "key",
+                      "value": "key",
+                      "description": "Key field."
+                    },
+                    {
+                      "name": "label",
+                      "value": "label",
+                      "description": "Label field."
+                    },
+                    {
+                      "name": "content_type",
+                      "value": "content_type",
+                      "description": "Content type field."
+                    },
+                    {
+                      "name": "value",
+                      "value": "value",
+                      "description": "Value field."
+                    },
+                    {
+                      "name": "last_modified",
+                      "value": "last_modified",
+                      "description": "Last modified field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "locked",
+                      "value": "locked",
+                      "description": "Locked field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A filter used to query by tags. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapirevisions",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckRevisions.json"
+          }
+        }
+      }
+    },
+    "/snapshots": {
+      "get": {
+        "summary": "Gets a list of key-value snapshots.",
+        "description": "Gets a list of key-value snapshots.",
+        "operationId": "GetSnapshots",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A filter for the name of the returned snapshots.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "name",
+                  "status",
+                  "filters",
+                  "composition_type",
+                  "created",
+                  "expires",
+                  "retention_period",
+                  "size",
+                  "items_count",
+                  "tags",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "SnapshotFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "name",
+                      "value": "name",
+                      "description": "Name field."
+                    },
+                    {
+                      "name": "status",
+                      "value": "status",
+                      "description": "Status field."
+                    },
+                    {
+                      "name": "filters",
+                      "value": "filters",
+                      "description": "Filters field."
+                    },
+                    {
+                      "name": "composition_type",
+                      "value": "composition_type",
+                      "description": "Composition type field."
+                    },
+                    {
+                      "name": "created",
+                      "value": "created",
+                      "description": "Created field."
+                    },
+                    {
+                      "name": "expires",
+                      "value": "expires",
+                      "description": "Expires field."
+                    },
+                    {
+                      "name": "retention_period",
+                      "value": "retention_period",
+                      "description": "Retention period field."
+                    },
+                    {
+                      "name": "size",
+                      "value": "size",
+                      "description": "Size field."
+                    },
+                    {
+                      "name": "items_count",
+                      "value": "items_count",
+                      "description": "Items count field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Used to filter returned snapshots by their status property.",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["provisioning", "ready", "archived", "failed"],
+                "x-ms-enum": {
+                  "name": "SnapshotStatus",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "provisioning",
+                      "value": "provisioning",
+                      "description": "Provisioning"
+                    },
+                    {
+                      "name": "ready",
+                      "value": "ready",
+                      "description": "Ready"
+                    },
+                    {
+                      "name": "archived",
+                      "value": "archived",
+                      "description": "Archived"
+                    },
+                    {
+                      "name": "failed",
+                      "value": "failed",
+                      "description": "Failed"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.snapshotset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotListResult"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotListResult"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.snapshotset+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a list of key-value snapshots.": {
+            "$ref": "./examples/GetSnapshots.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@nextLink",
+          "itemName": "items"
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckSnapshots",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "After",
+            "in": "query",
+            "description": "Instructs the server to return elements that appear after the element referred\nto by the specified token.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "after"
+            },
+            "x-ms-client-name": "after"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckSnapshots.json"
+          }
+        }
+      }
+    },
+    "/snapshots/{name}": {
+      "get": {
+        "summary": "Gets a single key-value snapshot.",
+        "description": "Gets a single key-value snapshot.",
+        "operationId": "GetSnapshot",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the snapshot.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$Select",
+            "in": "query",
+            "description": "Used to select what fields are present in the returned resource(s).",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "name",
+                  "status",
+                  "filters",
+                  "composition_type",
+                  "created",
+                  "expires",
+                  "retention_period",
+                  "size",
+                  "items_count",
+                  "tags",
+                  "etag"
+                ],
+                "x-ms-enum": {
+                  "name": "SnapshotFields",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "name",
+                      "value": "name",
+                      "description": "Name field."
+                    },
+                    {
+                      "name": "status",
+                      "value": "status",
+                      "description": "Status field."
+                    },
+                    {
+                      "name": "filters",
+                      "value": "filters",
+                      "description": "Filters field."
+                    },
+                    {
+                      "name": "composition_type",
+                      "value": "composition_type",
+                      "description": "Composition type field."
+                    },
+                    {
+                      "name": "created",
+                      "value": "created",
+                      "description": "Created field."
+                    },
+                    {
+                      "name": "expires",
+                      "value": "expires",
+                      "description": "Expires field."
+                    },
+                    {
+                      "name": "retention_period",
+                      "value": "retention_period",
+                      "description": "Retention period field."
+                    },
+                    {
+                      "name": "size",
+                      "value": "size",
+                      "description": "Size field."
+                    },
+                    {
+                      "name": "items_count",
+                      "value": "items_count",
+                      "description": "Items count field."
+                    },
+                    {
+                      "name": "tags",
+                      "value": "tags",
+                      "description": "Tags field."
+                    },
+                    {
+                      "name": "etag",
+                      "value": "etag",
+                      "description": "Etag field."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-name": "select"
+            },
+            "x-ms-client-name": "select"
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ms-request-id": {
+                "description": "An opaque, globally-unique, server-generated string identifier for the request.",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Link": {
+                "description": "Includes links to related resources.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/vnd.microsoft.appconfig.snapshot+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/vnd.microsoft.appconfig.snapshot+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets a single key-value snapshot failed.": {
+            "$ref": "./examples/GetSnapshot_Failed.json"
+          },
+          "Gets a single key-value snapshot using If-Match header.": {
+            "$ref": "./examples/GetSnapshot_IfMatch.json"
+          },
+          "Gets a single key-value snapshot using If-None-Match header.": {
+            "$ref": "./examples/GetSnapshot_IfNoneMatch.json"
+          },
+          "Gets a single key-value snapshot.": {
+            "$ref": "./examples/GetSnapshot.json"
+          }
+        }
+      },
+      "head": {
+        "summary": "Requests the headers and status of the given resource.",
+        "description": "Requests the headers and status of the given resource.",
+        "operationId": "CheckSnapshot",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the key-value snapshot to check.",
+            "required": true,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sync-Token",
+            "in": "header",
+            "description": "Used to guarantee real-time consistency between requests.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "syncToken"
+            },
+            "x-ms-client-name": "syncToken"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag matches the\nvalue provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifMatch"
+            },
+            "x-ms-client-name": "ifMatch"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "Used to perform an operation only if the targeted resource's etag does not\nmatch the value provided.",
+            "schema": {
+              "type": "string",
+              "x-ms-client-name": "ifNoneMatch"
+            },
+            "x-ms-client-name": "ifNoneMatch"
+          },
+          {
+            "$ref": "#/components/parameters/Azure.Core.ClientRequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "ETag": {
+                "description": "A value representing the current state of the resource.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Sync-Token": {
+                "description": "Used to guarantee real-time consistency between requests.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Link": {
+                "description": "Includes links to related resources.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Requests the headers and status of the given resource using If-Match header.": {
+            "$ref": "./examples/CheckSnapshot_IfMatch.json"
+          },
+          "Requests the headers and status of the given resource using If-None-Match header": {
+            "$ref": "./examples/CheckSnapshot_IfNoneMatch.json"
+          },
+          "Requests the headers and status of the given resource.": {
+            "$ref": "./examples/CheckSnapshot.json"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Azure.Core.Foundations.Error": {
+        "required": ["code", "message"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "One of a server-defined set of error codes."
+          },
+          "message": {
+            "type": "string",
+            "description": "A human-readable representation of the error."
+          },
+          "target": {
+            "type": "string",
+            "description": "The target of the error."
+          },
+          "details": {
+            "type": "array",
+            "description": "An array of details about specific errors that led to this reported error.",
+            "items": {
+              "$ref": "#/components/schemas/Azure.Core.Foundations.Error"
+            }
+          },
+          "innererror": {
+            "$ref": "#/components/schemas/Azure.Core.Foundations.InnerError"
+          }
+        },
+        "description": "The error object."
+      },
+      "Azure.Core.Foundations.InnerError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "One of a server-defined set of error codes."
+          },
+          "innererror": {
+            "$ref": "#/components/schemas/Azure.Core.Foundations.InnerError"
+          }
+        },
+        "description": "An object containing more specific information about the error. As per Azure REST API guidelines - https://aka.ms/AzureRestApiGuidelines#handling-errors."
+      },
+      "Azure.Core.Foundations.OperationState": {
+        "type": "string",
+        "description": "Enum describing allowed operation states.",
+        "enum": ["NotStarted", "Running", "Succeeded", "Failed", "Canceled"],
+        "x-ms-enum": {
+          "name": "OperationState",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "NotStarted",
+              "value": "NotStarted",
+              "description": "The operation has not started."
+            },
+            {
+              "name": "Running",
+              "value": "Running",
+              "description": "The operation is in progress."
+            },
+            {
+              "name": "Succeeded",
+              "value": "Succeeded",
+              "description": "The operation has completed successfully."
+            },
+            {
+              "name": "Failed",
+              "value": "Failed",
+              "description": "The operation has failed."
+            },
+            {
+              "name": "Canceled",
+              "value": "Canceled",
+              "description": "The operation has been canceled by the user."
+            }
+          ]
+        }
+      },
+      "CompositionTypex": {
+        "type": "string",
+        "description": "Composition types.",
+        "enum": ["key", "key_label"],
+        "x-ms-enum": {
+          "name": "CompositionType",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "key",
+              "value": "key",
+              "description": "The 'key' composition type."
+            },
+            {
+              "name": "key_label",
+              "value": "key_label",
+              "description": "The 'key_label' composition type."
+            }
+          ]
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of the error."
+          },
+          "title": {
+            "type": "string",
+            "description": "A brief summary of the error."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the parameter that resulted in the error."
+          },
+          "detail": {
+            "type": "string",
+            "description": "A detailed description of the error."
+          },
+          "status": {
+            "type": "integer",
+            "description": "The HTTP status code that the error maps to.",
+            "format": "int32"
+          }
+        },
+        "description": "Azure App Configuration error object."
+      },
+      "Key": {
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the key.",
+            "readOnly": true
+          }
+        },
+        "description": "Keys serve as identifiers for key-values and are used to store and retrieve corresponding values."
+      },
+      "KeyListResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The collection value.",
+            "items": {
+              "$ref": "#/components/schemas/Key"
+            }
+          },
+          "@nextLink": {
+            "type": "string",
+            "description": "The URI that can be used to request the next set of paged results."
+          }
+        },
+        "description": "The result of a list request."
+      },
+      "KeyValue": {
+        "required": ["key"],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The key of the key-value.",
+            "readOnly": true
+          },
+          "label": {
+            "type": "string",
+            "description": "The label the key-value belongs to."
+          },
+          "content_type": {
+            "type": "string",
+            "description": "The content type of the value stored within the key-value.",
+            "x-ms-client-name": "contentType"
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the key-value."
+          },
+          "last_modified": {
+            "type": "string",
+            "description": "A date representing the last time the key-value was modified.",
+            "format": "date-time",
+            "x-ms-client-name": "lastModified"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The tags of the key-value"
+          },
+          "locked": {
+            "type": "boolean",
+            "description": "Indicates whether the key-value is locked."
+          },
+          "etag": {
+            "type": "string",
+            "description": "A value representing the current state of the resource."
+          }
+        },
+        "description": "A key-value pair representing application settings."
+      },
+      "KeyValueFields": {
+        "type": "string",
+        "description": "Key-value fields.",
+        "enum": [
+          "key",
+          "label",
+          "content_type",
+          "value",
+          "last_modified",
+          "tags",
+          "locked",
+          "etag"
+        ],
+        "x-ms-enum": {
+          "name": "KeyValueFields",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "key",
+              "value": "key",
+              "description": "Key field."
+            },
+            {
+              "name": "label",
+              "value": "label",
+              "description": "Label field."
+            },
+            {
+              "name": "content_type",
+              "value": "content_type",
+              "description": "Content type field."
+            },
+            {
+              "name": "value",
+              "value": "value",
+              "description": "Value field."
+            },
+            {
+              "name": "last_modified",
+              "value": "last_modified",
+              "description": "Last modified field."
+            },
+            {
+              "name": "tags",
+              "value": "tags",
+              "description": "Tags field."
+            },
+            {
+              "name": "locked",
+              "value": "locked",
+              "description": "Locked field."
+            },
+            {
+              "name": "etag",
+              "value": "etag",
+              "description": "Etag field."
+            }
+          ]
+        }
+      },
+      "KeyValueFilter": {
+        "required": ["key"],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Filters key-values by their key field."
+          },
+          "label": {
+            "type": "string",
+            "description": "Filters key-values by their label field."
+          },
+          "tags": {
+            "type": "array",
+            "description": "Filters key-values by their tags field.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Enables filtering of key-values. Syntax reference:\nhttps://aka.ms/azconfig/docs/restapisnapshots"
+      },
+      "KeyValueListResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The collection value.",
+            "items": {
+              "$ref": "#/components/schemas/KeyValue"
+            }
+          },
+          "etag": {
+            "type": "string",
+            "description": "An identifier representing the returned state of the resource."
+          },
+          "@nextLink": {
+            "type": "string",
+            "description": "The URI that can be used to request the next set of paged results."
+          }
+        },
+        "description": "The result of a list request."
+      },
+      "Label": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the label."
+          }
+        },
+        "description": "Labels are used to group key-values."
+      },
+      "LabelFields": {
+        "type": "string",
+        "description": "Label fields.",
+        "enum": ["name"],
+        "x-ms-enum": {
+          "name": "LabelFields",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "name",
+              "value": "name",
+              "description": "Name field."
+            }
+          ]
+        }
+      },
+      "LabelListResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The collection value.",
+            "items": {
+              "$ref": "#/components/schemas/Label"
+            }
+          },
+          "@nextLink": {
+            "type": "string",
+            "description": "The URI that can be used to request the next set of paged results."
+          }
+        },
+        "description": "The result of a list request."
+      },
+      "OperationDetails": {
+        "required": ["id", "status"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique id of the operation."
+          },
+          "status": {
+            "$ref": "#/components/schemas/Azure.Core.Foundations.OperationState"
+          },
+          "error": {
+            "$ref": "#/components/schemas/Azure.Core.Foundations.Error"
+          }
+        },
+        "description": "Details of a long running operation."
+      },
+      "Snapshot": {
+        "required": ["filters", "name"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the snapshot.",
+            "readOnly": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/SnapshotStatus"
+          },
+          "filters": {
+            "maxItems": 3,
+            "minItems": 1,
+            "type": "array",
+            "description": "A list of filters used to filter the key-values included in the snapshot.",
+            "items": {
+              "$ref": "#/components/schemas/KeyValueFilter"
+            }
+          },
+          "composition_type": {
+            "$ref": "#/components/schemas/CompositionTypex"
+          },
+          "created": {
+            "type": "string",
+            "description": "The time that the snapshot was created.",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "expires": {
+            "type": "string",
+            "description": "The time that the snapshot will expire.",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "retention_period": {
+            "maximum": 7776000,
+            "minimum": 3600,
+            "type": "integer",
+            "description": "The amount of time, in seconds, that a snapshot will remain in the archived\nstate before expiring. This property is only writable during the creation of a\nsnapshot. If not specified, the default lifetime of key-value revisions will be\nused.",
+            "format": "int64",
+            "x-ms-client-name": "retentionPeriod"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size in bytes of the snapshot.",
+            "format": "int64",
+            "readOnly": true
+          },
+          "items_count": {
+            "type": "integer",
+            "description": "The amount of key-values in the snapshot.",
+            "format": "int64",
+            "readOnly": true,
+            "x-ms-client-name": "itemsCount"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The tags of the snapshot."
+          },
+          "etag": {
+            "type": "string",
+            "description": "A value representing the current state of the snapshot.",
+            "readOnly": true
+          }
+        },
+        "description": "A snapshot is a named, immutable subset of an App Configuration store's key-values."
+      },
+      "SnapshotFields": {
+        "type": "string",
+        "description": "Snapshot fields.",
+        "enum": [
+          "name",
+          "status",
+          "filters",
+          "composition_type",
+          "created",
+          "expires",
+          "retention_period",
+          "size",
+          "items_count",
+          "tags",
+          "etag"
+        ],
+        "x-ms-enum": {
+          "name": "SnapshotFields",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "name",
+              "value": "name",
+              "description": "Name field."
+            },
+            {
+              "name": "status",
+              "value": "status",
+              "description": "Status field."
+            },
+            {
+              "name": "filters",
+              "value": "filters",
+              "description": "Filters field."
+            },
+            {
+              "name": "composition_type",
+              "value": "composition_type",
+              "description": "Composition type field."
+            },
+            {
+              "name": "created",
+              "value": "created",
+              "description": "Created field."
+            },
+            {
+              "name": "expires",
+              "value": "expires",
+              "description": "Expires field."
+            },
+            {
+              "name": "retention_period",
+              "value": "retention_period",
+              "description": "Retention period field."
+            },
+            {
+              "name": "size",
+              "value": "size",
+              "description": "Size field."
+            },
+            {
+              "name": "items_count",
+              "value": "items_count",
+              "description": "Items count field."
+            },
+            {
+              "name": "tags",
+              "value": "tags",
+              "description": "Tags field."
+            },
+            {
+              "name": "etag",
+              "value": "etag",
+              "description": "Etag field."
+            }
+          ]
+        }
+      },
+      "SnapshotListResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The collection value.",
+            "items": {
+              "$ref": "#/components/schemas/Snapshot"
+            }
+          },
+          "@nextLink": {
+            "type": "string",
+            "description": "The URI that can be used to request the next set of paged results."
+          }
+        },
+        "description": "The result of a snapshot list request."
+      },
+      "SnapshotStatus": {
+        "type": "string",
+        "description": "Snapshot status.",
+        "enum": ["provisioning", "ready", "archived", "failed"],
+        "x-ms-enum": {
+          "name": "SnapshotStatus",
+          "modelAsString": true,
+          "values": [
+            {
+              "name": "provisioning",
+              "value": "provisioning",
+              "description": "Provisioning"
+            },
+            {
+              "name": "ready",
+              "value": "ready",
+              "description": "Ready"
+            },
+            {
+              "name": "archived",
+              "value": "archived",
+              "description": "Archived"
+            },
+            {
+              "name": "failed",
+              "value": "failed",
+              "description": "Failed"
+            }
+          ]
+        }
+      },
+      "SnapshotUpdateParameters": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/SnapshotStatus"
+          }
+        },
+        "description": "Parameters used to update a snapshot."
+      }
+    },
+    "parameters": {
+      "Azure.Core.ClientRequestIdHeader": {
+        "name": "x-ms-client-request-id",
+        "in": "header",
+        "description": "An opaque, globally-unique, client-generated string identifier for the request.",
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "x-ms-parameter-location": "method",
+          "x-ms-client-name": "clientRequestId"
+        },
+        "x-ms-parameter-location": "method",
+        "x-ms-client-name": "clientRequestId"
+      },
+      "Azure.Core.Foundations.ApiVersionParameter": {
+        "name": "api-version",
+        "in": "query",
+        "description": "The API version to use for this operation.",
+        "required": true,
+        "schema": {
+          "minLength": 1,
+          "type": "string",
+          "x-ms-parameter-location": "method",
+          "x-ms-client-name": "apiVersion"
+        },
+        "x-ms-parameter-location": "method",
+        "x-ms-client-name": "apiVersion"
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "Connection String",
+        "in": "header"
+      },
+      "OAuth2Auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+            "scopes": {
+              "https://azconfig.io/.default": ""
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "name": "endpoint",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "format": "uri",
+        "x-ms-skip-url-encoding": true
+      }
+    ]
+  },
+  "x-original-swagger-version": "2.0"
+}

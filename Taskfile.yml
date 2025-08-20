@@ -1,0 +1,96 @@
+version: "3"
+method: timestamp
+run: once
+
+output: prefixed
+
+env:
+  TOOL_DIR: "{{.ROOT_DIR}}/.bin"
+  BUILD_DIR: build
+  GEN_DIR: gen
+  OAPI_CODEGEN: "{{.TOOL_DIR}}/oapi-codegen"
+  OAPI_CODEGEN_VERSION: 2.3.0
+  SWAGGER: "{{.TOOL_DIR}}/swagger"
+  SWAGGER_VERSION: "v0.32.3"
+
+tasks:
+  bootstrap:
+    desc: Task to install dependencies
+    deps:
+      # - install-go-swagger
+      - install-oapi-codegen
+
+  make-tool-dir:
+    desc: >-
+      Make the TOOL_DIR directory
+    internal: true
+    generates:
+      - "{{.TOOL_DIR}}"
+    cmds:
+      - mkdir -p "{{.TOOL_DIR}}"
+    status:
+      - test -d "{{.TOOL_DIR}}"
+
+  install-go-swagger:
+    desc: >-
+      Install swagger into .bin, for Swagger 2.0 support
+    internal: true
+    env:
+      GOBIN: "{{.TOOL_DIR}}"
+    generates:
+      - "{{.SWAGGER}}"
+    deps: [ make-tool-dir ]
+    cmds:
+      - go install github.com/go-swagger/go-swagger/cmd/swagger@{{.SWAGGER_VERSION}}
+    status:
+      - test -x "{{.SWAGGER}}"
+      - '[[ "$({{.SWAGGER}} -version)" == *"{{.SWAGGER_VERSION}}"* ]]'
+
+  install-oapi-codegen:
+    desc: >-
+      Install opai-codegen into .bin
+    internal: true
+    env:
+      GOBIN: "{{.TOOL_DIR}}"
+    vars:
+      OAPI_CODEGEN_VERSION: "{{.OAPI_CODEGEN_VERSION}}"
+      OAPI_CODEGEN_PATH: "{{.TOOL_DIR}}/oapi-codegen"
+    generates:
+      - "{{.OAPI_CODEGEN_PATH}}"
+    deps: [ make-tool-dir ]
+    cmds:
+      - go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v{{.OAPI_CODEGEN_VERSION}}
+    status:
+      - test -x "{{.OAPI_CODEGEN_PATH}}"
+      - '[[ "$({{.OAPI_CODEGEN_PATH}} -version)" == *"{{.OAPI_CODEGEN_VERSION}}"* ]]'
+
+  gen-swagger:
+    desc: |
+      Generate the REST API handler code from the 
+      Azure OpenAPI specification
+    cmds:
+      - mkdir -p gen/appconfig
+      #- "{{.OAPI_CODEGEN}} -templates gintemplates/ -generate types,gin,strict-server -package appconfig -o gen/appconfig/appconfig.gen.go ./openapi/appconfiguration-3.0.1-custom.json"
+      - "{{.OAPI_CODEGEN}} -generate types,gin,strict-server -package appconfig -o gen/appconfig/appconfig.gen.go ./openapi/appconfiguration-3.0.1-custom.json"
+
+  gen:
+    deps:
+      - gen-swagger
+
+  clean:
+    cmds:
+      - rm -rf {{.GEN_DIR}}
+
+  build:
+    desc: Build the application
+    deps:
+      - gen
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - go build -o {{.BUILD_DIR}}/ ./...
+
+  # run:
+  #   deps:
+  #     - build
+  #   cmds:
+  #     - "{{.BUILD_DIR}}/kvv {{.CLI_ARGS}}"
